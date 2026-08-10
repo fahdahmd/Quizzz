@@ -1,0 +1,16 @@
+services:
+  api:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: sqlite:////srv/data/quiz.db
+      TRUST_PROXY_HEADERS: "true"
+    volumes:
+      - quiz-data:/srv/data
+    ports:
+      # Bound to loopback: only the reverse proxy can reach it.
+      - "127.0.0.1:8000:8000"
+
+volumes:
+  quiz-data:
